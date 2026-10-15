@@ -1,0 +1,23 @@
+name: Deploy para Netlify
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Publicar no Netlify
+        run: netlify deploy --site="${{ secrets.NETLIFY_SITE_ID }}" --auth="${{ secrets.NETLIFY_AUTH_TOKEN }}" --dir="." --prod

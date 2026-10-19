@@ -1,0 +1,24 @@
+
+name: Deploy manual - Dev
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código da branch dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Instalar Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Publicar no Netlify (dev)
+        run: netlify deploy --site="${{ secrets.NETLIFY_DEV_SITE_ID }}" --auth="${{ secrets.NETLIFY_AUTH_TOKEN }}" --dir="." --prod
